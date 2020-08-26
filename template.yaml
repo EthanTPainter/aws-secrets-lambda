@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Lambda to retrieve secrets from AWS
+
+Resources:
+  SecretsLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: app.secrets_handler
+      Runtime: python3.8
+      Role: !GetAtt LambdaExecutionRole.Arn
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: !Sub ${AWS::StackName}
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: kms:Decrypt
+                Resource: "*"
+              - Effect: Allow
+                Action: ssm:DescribeParameters
+                Resource: "*"
+              - Effect: Allow
+                Action: ssm:GetParameter
+                Resource:
+                  - !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/*"
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource: arn:aws:logs:*:*:*
+
+Outputs:
+  SecretsLambda:
+    Description: Arn for the Secrets Lambda
+    Value: !GetAtt SecretsLambda.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-SecretsLambda"
