@@ -55,4 +55,4 @@ Outputs:
     Description: Arn for the Secrets Lambda
     Value: !GetAtt SecretsLambda.Arn
     Export:
-      Name: !Sub "${AWS::StackName}-SecretsLambda"
+      Name: !Sub "SecretsLambdaArn"
