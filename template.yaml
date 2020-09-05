@@ -9,7 +9,10 @@ Resources:
       CodeUri: lambda/
       Handler: app.secrets_handler
       Runtime: python3.8
+      Timeout: 30
       Role: !GetAtt LambdaExecutionRole.Arn
+      Tags:
+        Product: Baseball
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -24,6 +27,9 @@ Resources:
             Action:
               - sts:AssumeRole
       Path: /
+      Tags:
+        - Key: Product
+          Value: Baseball
       Policies:
         - PolicyName: !Sub ${AWS::StackName}
           PolicyDocument:
