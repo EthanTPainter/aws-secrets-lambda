@@ -1,18 +1,18 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Description: Lambda to retrieve secrets from AWS
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Description: "Lambda to retrieve secrets from AWS"
 
 Resources:
   SecretsLambda:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: lambda/
+      FunctionName: SecretsLambda
+      CodeUri: lambda
       Handler: app.secrets_handler
-      Runtime: python3.8
+      Runtime: python3.9
       Timeout: 30
       Role: !GetAtt LambdaExecutionRole.Arn
-      Tags:
-        Product: Baseball
+      MemorySize: 128
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -27,9 +27,6 @@ Resources:
             Action:
               - sts:AssumeRole
       Path: /
-      Tags:
-        - Key: Product
-          Value: Baseball
       Policies:
         - PolicyName: !Sub ${AWS::StackName}
           PolicyDocument:
@@ -51,8 +48,8 @@ Resources:
                 Resource: arn:aws:logs:*:*:*
 
 Outputs:
-  SecretsLambda:
+  NewSecretsLambdaArn:
     Description: Arn for the Secrets Lambda
     Value: !GetAtt SecretsLambda.Arn
     Export:
-      Name: !Sub "SecretsLambdaArn"
+      Name: NewSecretsLambdaArn

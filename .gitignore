@@ -1,5 +1,7 @@
 **/*/dist
 
+venv
+
 **/*/.serverless
 # Logs
 logs
