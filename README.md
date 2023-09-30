@@ -1,5 +1,5 @@
 # aws-secrets-lambda
-Lambda to retrieve secrets (SecureString type parameters from System Manager) from AWS.
+Lambda to retrieve secrets (SecureString type parameters from System Manager) from AWS as a separate service or through CodePipeline integration for automatic secret retrieval during pipeline runs.
 
 ## Install
 Run `pip install`. All dependencies are listed in the `lambda/requirements.txt`.
