@@ -4,7 +4,7 @@ certifi==2024.7.4
 cfnresponse==1.1.2
 chardet==3.0.4
 docutils==0.15
-idna==2.10
+idna==3.7
 jmespath==0.10.0
 python-dateutil==2.8.1
 requests==2.31.0
